@@ -38,24 +38,31 @@ const accountLimiter = rateLimit({
 
 app.use(
   Cors({
-    origin: ["http://localhost:3000"],
+    origin: [
+      "http://localhost:3000",
+      "https://beer-buddies-game.herokuapp.com/",
+    ],
     methods: ["GET", "POST"],
     credentials: true,
+    allowedHeaders: ["Origin", "Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.enable("trust proxy", true);
 app.use(
   session({
     key: "User",
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     resave: false,
+    proxy: true,
     cookie: {
       maxAge: null,
-      secure: false,
-      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: false,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
 );
