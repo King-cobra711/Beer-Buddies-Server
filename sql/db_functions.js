@@ -128,7 +128,7 @@ const Login = (req, logstat) => {
     console.log(err);
     console.log(result);
     if (err) {
-      res.send({ err: err });
+      logstat(err);
     }
     if (result.length > 0) {
       bcrypt.compare(password, result[0].User_Password, (err, response) => {
