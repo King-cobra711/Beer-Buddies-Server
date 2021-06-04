@@ -1,7 +1,6 @@
 const app = require("./index.js");
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
-app.listen(port, () => {
-  // console.log(`running on port ${PORT}`);
-  console.log(`running on port 3001`);
+server.listen(port, () => {
+  console.log("App is running on port " + port);
 });
